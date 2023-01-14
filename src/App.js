@@ -1,7 +1,10 @@
+import Login from "./pages/login/Login";
+
+
 function App() {
   return (
     <div>
-      Hello world!
+      <Login/>
     </div>
   );
 }
