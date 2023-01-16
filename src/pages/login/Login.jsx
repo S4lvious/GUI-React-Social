@@ -3,14 +3,19 @@ import "./login.scss"
 import { Link, Navigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/authContext'
+import { useNavigate } from "react-router-dom";
+
 
 const Login = () => {
+
+
+  const Navigate = useNavigate();
 
   const {login} = useContext(AuthContext);
   const handleLogin = () =>{
     
     login();
-    return <Navigate to="/"/>
+    Navigate("/")
   }
 
   return (
