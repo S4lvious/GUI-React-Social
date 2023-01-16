@@ -8,8 +8,9 @@ const Login = () => {
 
   const {login} = useContext(AuthContext);
   const handleLogin = () =>{
+    
     login();
-    <Navigate to="/"/>
+    return <Navigate to="/"/>
   }
 
   return (
