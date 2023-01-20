@@ -7,12 +7,15 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Link } from 'react-router-dom';
 import Comments from '../comments/Comments';
+import moment from "moment"
 
 const Post = ({post}) => {
 
   const [commentOpen, setCommentOpen] = useState(false)
-
   const [isLiked, setIsLiked] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  console.log(post.id)
 
   return (
     <div className='post'>
@@ -22,14 +25,15 @@ const Post = ({post}) => {
           <img src={post.profilePic}/>
           <div className="details">
             <Link to={`/profile/${post.userId}`} style={{textDecoration:"none", color:"inherit"}}><span className='name'>{post.name}</span> </Link>
-            <span className="date">1 minuto fa</span>
+            <span className="date">{moment(post.createdAt).fromNow()}</span>
           </div>
         </div>
-        <MoreHorizIcon/>
+        <MoreHorizIcon onClick={()=>setMenuOpen(!menuOpen)}/>
+        {menuOpen && <button><Link to={`/update/${post.id}`}>update</Link></button>}
       </div>
       <div className="content">
         <p>{post.desc}</p>
-        <img src={post.img}></img>
+        <img src={"./upload/" + post.img} alt=""></img>
       </div>
       <div className="info">
         <div className="item " onClick={()=>setIsLiked(!isLiked)}>

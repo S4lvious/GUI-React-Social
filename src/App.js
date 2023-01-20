@@ -5,6 +5,7 @@ import NavBar from "./components/navBar/NavBar"
 import LeftBar from "./components/leftBar/LeftBar"
 import RightBar from "./components/rightBar/RightBar"
 import Profile from "./pages/profile/Profile"
+import Update from "./pages/update/Update"
 import "./style.scss"
 import {
   createBrowserRouter,
@@ -16,6 +17,8 @@ import {
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/authContext";
+import { QueryClient, QueryClientProvider } from 'react-query'
+
 
 function App() {
 
@@ -23,8 +26,12 @@ function App() {
 
   const {currentUser} = useContext(AuthContext);
 
+  const queryClient = new QueryClient()
+
   const Layout = () =>{
     return (
+      <QueryClientProvider client={queryClient}>
+
       <div className={`theme-${darkMode ? "dark" : "light"}`}>
         <NavBar/>
         <div style={{ display: "flex" }}>
@@ -35,6 +42,7 @@ function App() {
           <RightBar/>
         </div>
      </div>
+      </QueryClientProvider>
     
     );
   };
@@ -58,6 +66,10 @@ function App() {
         {
           path:"/profile/:id",
           element:<Profile/>
+        },
+        {
+          path:"/update/:id",
+          element:<Update/>
         }
       ]
     },

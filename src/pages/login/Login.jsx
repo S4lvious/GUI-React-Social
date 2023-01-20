@@ -1,21 +1,41 @@
 import React from 'react'
 import "./login.scss"
-import { Link, Navigate } from 'react-router-dom'
-import { useContext } from 'react'
+import { Link } from 'react-router-dom'
+import { useContext, useState } from 'react'
 import { AuthContext } from '../../context/authContext'
 import { useNavigate } from "react-router-dom";
 
 
 const Login = () => {
 
+  const [inputs, setInputs] = useState({
+    username:"",
+    password:""    
+  })
+
+
+
+  const handleChange = e =>{
+
+    setInputs(prev=>({...prev, [e.target.name]: e.target.value}));
+
+  };
+  console.log(inputs)
+
+  const [err, setErr] = useState(null)
+
 
   const Navigate = useNavigate();
 
   const {login} = useContext(AuthContext);
-  const handleLogin = () =>{
-    
-    login();
+  const handleLogin = async (e) =>{
+    e.preventDefault()
+    try{
+    await login(inputs);
     Navigate("/")
+    }catch(err){
+      setErr(err.response.data)
+    }
   }
 
   return (
@@ -30,8 +50,9 @@ const Login = () => {
         <div className="right">
           <h1>Login</h1>
           <form>
-            <input type="text" placeholder="Username"></input>
-            <input type="password" placeholder="Password"></input>
+            <input type="text" placeholder="Username" name='username' onChange={handleChange}></input>
+            <input type="password" placeholder="Password" name='password' onChange={handleChange}></input>
+            {err && err}
             <button onClick={handleLogin}>Login</button>
           </form>
         </div>
