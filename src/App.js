@@ -5,12 +5,10 @@ import NavBar from "./components/navBar/NavBar"
 import LeftBar from "./components/leftBar/LeftBar"
 import RightBar from "./components/rightBar/RightBar"
 import Profile from "./pages/profile/Profile"
-import Update from "./pages/update/Update"
 import "./style.scss"
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
   Outlet,
   Navigate,
 } from "react-router-dom";
@@ -46,14 +44,13 @@ function App() {
     
     );
   };
-
-  const ProtectedRoute = ({children}) => {
-    if(!currentUser){
-      return <Navigate to ="/login/"/>
+  const ProtectedRoute = ({ children }) => {
+    if (!currentUser.id) {
+      return <Navigate to="/login" />;
     }
-    return children
-  }
-
+  return children;
+  };
+  
   const router = createBrowserRouter([
     {
       path:"/",
@@ -66,10 +63,6 @@ function App() {
         {
           path:"/profile/:id",
           element:<Profile/>
-        },
-        {
-          path:"/update/:id",
-          element:<Update/>
         }
       ]
     },

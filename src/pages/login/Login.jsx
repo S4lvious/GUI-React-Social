@@ -28,6 +28,7 @@ const Login = () => {
   const Navigate = useNavigate();
 
   const {login} = useContext(AuthContext);
+  
   const handleLogin = async (e) =>{
     e.preventDefault()
     try{

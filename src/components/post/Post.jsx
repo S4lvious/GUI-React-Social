@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import "./post.scss"
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
@@ -8,16 +8,41 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Link } from 'react-router-dom';
 import Comments from '../comments/Comments';
 import moment from "moment"
+import Updatepost from '../updatePost/Updatepost';
+import { AuthContext } from '../../context/authContext';
+import {useQuery, useMutation, useQueryClient } from "react-query"
+import { makeRequest } from '../../axios';
+import axios from 'axios';
 
 const Post = ({post}) => {
 
   const [commentOpen, setCommentOpen] = useState(false)
   const [isLiked, setIsLiked] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [openUpdate, setOpenUpdate] = useState(false)
+  const currentUser = useContext(AuthContext)
 
-  console.log(post.id)
+
+  const queryClient = useQueryClient();
+  const deletePostMutation = useMutation(
+    (postId) => {
+        return makeRequest.delete("/posts/"+postId);
+    },
+    {
+        onSuccess: () => {
+        queryClient.invalidateQueries(["posts"]);
+    },
+}
+);
+
+
+const handleDelete = async () => {
+  deletePostMutation.mutate(post.id)
+}
+
 
   return (
+    
     <div className='post'>
       <div className="container">
       <div className="user">
@@ -28,8 +53,8 @@ const Post = ({post}) => {
             <span className="date">{moment(post.createdAt).fromNow()}</span>
           </div>
         </div>
-        <MoreHorizIcon onClick={()=>setMenuOpen(!menuOpen)}/>
-        {menuOpen && <button><Link to={`/update/${post.id}`}>update</Link></button>}
+        {currentUser.currentUser.id === post.userId && (<MoreHorizIcon onClick={()=>setMenuOpen(!menuOpen)}/>)}
+        {menuOpen && <div className='menu'><button onClick={()=>{setOpenUpdate(true); setMenuOpen(false);}} >Modifica</button><button onClick={()=>{handleDelete(); setMenuOpen(false);}}>Elimina</button></div>} 
       </div>
       <div className="content">
         <p>{post.desc}</p>
@@ -49,9 +74,11 @@ const Post = ({post}) => {
           8 Condivisioni
         </div>
       </div>
-      {commentOpen && <Comments/>}
+      {commentOpen && <Comments postId={post.id}/>}
     </div>
-  </div>
+    {openUpdate && <Updatepost setOpenUpdate={setOpenUpdate}post={post}/>}
+</div>
+
   )
 }
 
