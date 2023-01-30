@@ -44,12 +44,18 @@ const Share = () => {
 
   const handleClick = async (e) =>{
     e.preventDefault();
-    let imgUrl ="";
-    if(file) imgUrl = await upload();
-    mutation.mutate({desc, img:imgUrl});
-    setDesc("")
-    setFile(null)
+    if (desc.trim().length !== 0) {
+      console.log('input value is NOT empty');
+      let imgUrl ="";
+      if(file) imgUrl = await upload();
+      mutation.mutate({desc, img:imgUrl});
+      setDesc("")
+      setFile(null)
 
+    } else {
+      console.log('input value is empty');
+    }
+    
   };
 
   return (
@@ -58,7 +64,7 @@ const Share = () => {
         <div className="top">
           <div className="left">
           <img
-            src={currentUser.profilePic}
+            src={"/upload/"+currentUser.profilePic}
             alt=""
             />
           <input type="text" 
@@ -92,7 +98,7 @@ const Share = () => {
             </div>
           </div>
           <div className="right">
-            <button onClick={handleClick}>Posta</button>
+            <button onClick={handleClick} disabled={!desc}>Posta</button>
           </div>
         </div>
       </div>

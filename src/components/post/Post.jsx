@@ -31,15 +31,37 @@ const Post = ({post}) => {
     {
         onSuccess: () => {
         queryClient.invalidateQueries(["posts"]);
+      },
+    }
+  );
+
+  const handleDelete = async () => {
+    deletePostMutation.mutate(post.id)
+  }
+
+
+  const { isLoading, error, data } = useQuery(["likes", post.id], () =>
+    makeRequest.get("/likes?postId="+post.id).then((res) => {
+      return res.data;
+    })
+  );
+
+  const mutation = useMutation(
+    (liked) => {
+        if(liked) return makeRequest.delete("/likes?postId="+post.id);
+        return makeRequest.post("/likes/", {postId: post.id});
     },
-}
-);
+    {
+        onSuccess: () => {
+        queryClient.invalidateQueries(["likes"]);
+      },
+    }
+  );
 
-
-const handleDelete = async () => {
-  deletePostMutation.mutate(post.id)
-}
-
+  const handleLike = () => {
+    mutation.mutate(data.includes(currentUser.currentUser.id))
+  }
+  
 
   return (
     
@@ -47,7 +69,7 @@ const handleDelete = async () => {
       <div className="container">
       <div className="user">
         <div className="userInfo">
-          <img src={post.profilePic}/>
+          <img src={"/upload/"+post.profilePic}/>
           <div className="details">
             <Link to={`/profile/${post.userId}`} style={{textDecoration:"none", color:"inherit"}}><span className='name'>{post.name}</span> </Link>
             <span className="date">{moment(post.createdAt).fromNow()}</span>
@@ -62,12 +84,12 @@ const handleDelete = async () => {
       </div>
       <div className="info">
         <div className="item " onClick={()=>setIsLiked(!isLiked)}>
-          {isLiked ? <FavoriteOutlinedIcon/> : <FavoriteBorderOutlinedIcon/>}
-          12 Mi piace
+          {isLoading ? ("Loading") : data.includes(currentUser.currentUser.id) ? (<FavoriteOutlinedIcon style={{color:"red"}} onClick={handleLike}/>) : (<FavoriteBorderOutlinedIcon onClick={handleLike}/>)}
+         {isLoading ? "Loading" : data.length} Mi piace
         </div>
         <div className="item" onClick={()=>setCommentOpen(!commentOpen)}>
           <TextsmsOutlinedIcon/>
-          4 Commenti
+          Commenti
         </div>
         <div className="item">
           <ShareOutlinedIcon/>

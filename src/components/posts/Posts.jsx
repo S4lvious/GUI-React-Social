@@ -10,8 +10,15 @@ const Posts = ({userId}) => {
       return res.data;
     })
   );
+  
+  const comments = isLoading ? "Loading" : data.map((postId)=>postId.id);
 
-    
+  const { isLoading:cIsLoading, error:cError, data:cData } = useQuery([comments], () =>
+  makeRequest.get("/comments?postId="+comments).then((res) => {
+    return res.data;
+  })
+);
+
 
 
   return (

@@ -16,6 +16,7 @@ const Comments = ({postId}) => {
   })
 );
 
+
 const queryClient = useQueryClient();
 
 
@@ -32,9 +33,13 @@ const mutation = useMutation(
 
 const handleClick = async (e) =>{
   e.preventDefault();
-  mutation.mutate({desc, postId});
-  setDesc("")
-
+  if (desc.trim().length !== 0) {
+    console.log('input value is NOT empty');
+    mutation.mutate({desc, postId});
+    setDesc("")
+  } else {
+    console.log('input value is empty');
+  }
 };
 
 
@@ -43,13 +48,13 @@ const handleClick = async (e) =>{
   return (
     <div className='comments'>
       <div className="write">
-      <img src={currentUser.profilePic}></img>
+      <img src={"/upload/"+currentUser.profilePic}></img>
       <input type="text" placeholder="Scrivi un commento" onChange={e=>setDesc(e.target.value)} value={desc}></input>
-      <button onClick={handleClick}>Invia</button>
+      <button onClick={handleClick} disabled={!desc}>Invia</button>
       </div>
       {isLoading ? "Loading" : data.map(comment=>(
-        <div className='comment'>
-          <img src={comment.profilePic}></img>
+        <div className='comment' key={comment.id}>
+          <img src={"/upload/"+comment.profilePic}></img>
           <div className="info">
             <span>{comment.name}</span>
             <p>{comment.desc}</p>
