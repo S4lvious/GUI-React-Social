@@ -30,7 +30,7 @@ const Login = () => {
   const {login} = useContext(AuthContext);
   
   const handleLogin = async (e) =>{
-    e.preventDefault()
+    e.preventDefault();
     try{
     await login(inputs);
     Navigate("/")

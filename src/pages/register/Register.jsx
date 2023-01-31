@@ -3,7 +3,7 @@ import "./register.scss"
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import axios from 'axios'
-
+import { makeRequest } from '../../axios'
 const Register = () => {
 
   const [inputs, setInputs] = useState({
@@ -25,7 +25,7 @@ const Register = () => {
   const handleClick = async e => {
     e.preventDefault()
     try{
-      await axios.post("http://localhost:8800/api/auth/register", inputs)
+      await makeRequest.post("/auth/register", inputs)
     }catch(err){
       setErr(err.response.data);
     }

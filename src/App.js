@@ -45,8 +45,8 @@ function App() {
     );
   };
   const ProtectedRoute = ({ children }) => {
-    if (!currentUser.id) {
-      return <Navigate to="/login" />;
+    if (!currentUser) {
+      return <Navigate to="/login"/>;
     }
   return children;
   };
