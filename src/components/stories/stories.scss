@@ -45,10 +45,8 @@
                 
             }
         }
-        button{
-            background-color: #5271ff;
-            color: white;
-            border-radius: 50%;
+        .button{
+            color: #5271ff;
             position: absolute;
             bottom: 40px;
             left: 10px;
@@ -56,10 +54,10 @@
             width: 30px;
             height: 30px;
             cursor: pointer;
-            font-size: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: large;
 
             @include mobile{
                 left: 0;

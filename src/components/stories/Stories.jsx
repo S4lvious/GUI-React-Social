@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import "./stories.scss"
 import {AuthContext} from "../../context/authContext"
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const Stories = () => {
 
@@ -37,7 +38,7 @@ const Stories = () => {
       <div className="story">
           <img src={"/upload/"+currentUser.profilePic}/>
           <span>{currentUser.name}</span>
-          <button>+</button>
+          <AddCircleIcon className='button' fontSize={'large'}></AddCircleIcon>
         </div>
       {stories.map(story=>(
         <div className="story" key={story.id}>

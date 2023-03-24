@@ -80,7 +80,7 @@ const Post = ({post}) => {
       </div>
       <div className="content">
         <p>{post.desc}</p>
-        <img src={"./upload/" + post.img} alt=""></img>
+        <img src={"../upload/" + post.img} alt=""></img>
       </div>
       <div className="info">
         <div className="item " onClick={()=>setIsLiked(!isLiked)}>

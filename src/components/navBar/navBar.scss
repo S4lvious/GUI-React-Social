@@ -13,17 +13,26 @@
     background-color: themed("bg");
     color: themed("textColor");
     z-index: 999999;
-    @include mobile{
-       justify-content: center;
-        
-    }
+
     .left{
         display: flex;
         align-items: center;
         gap: 20px;
+
+
+        .icons {
+            display: flex;
+            justify-content: flex-end;
+            @include mobile{
+                display: none;
+                }
+                
+        }
+
         span{
             font-weight: bold;
             color: themed("logo");
+            
         
         }
         .search{
@@ -33,6 +42,10 @@
             border: 1px solid themed("border");
             padding: 5px;
             position: relative;
+            @include mobile{
+             display: none;
+            }
+
             input{
                 border: none;
                 width: 500px;
@@ -41,6 +54,7 @@
 
                 @include mobile{
                     display: none;
+                    
                 }
             }
         }
@@ -49,14 +63,17 @@
         display: flex;
         align-items: center;
         gap: 20px;
+        
 
         @include mobile{
             display: none;
+            
         }
         .user{
             display: flex;
             align-items: center;
             gap: 10px;
+            
             img{
                 width: 30px;
                 border-radius: 50%;

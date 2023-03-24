@@ -13,14 +13,14 @@ export const AuthContextProvider = ({ children }) => {
       const res = await makeRequest.post("/auth/login", inputs, {
         withCredentials:true,
       })
-      setCurrentUser(res.data)
+      await setCurrentUser(res.data)
     };
 
     const logout = async () => {
       const res = await makeRequest.post("/auth/logout", {
         withCredentials:true,
       })
-      setCurrentUser(null)
+     await setCurrentUser(null)
     };
 
 

@@ -16,7 +16,9 @@ import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/authContext";
 import { QueryClient, QueryClientProvider } from 'react-query'
-
+import SignIn from "./pages/login/Signin";
+import LoginS from "./pages/login/Signin";
+import SignUp from "./pages/register/RegisterS";
 
 function App() {
 
@@ -46,7 +48,7 @@ function App() {
   };
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
-      return <Navigate to="/login"/>;
+      return <Login/>;
     }
   return children;
   };
@@ -63,19 +65,17 @@ function App() {
         {
           path:"/profile/:id",
           element:<Profile/>
-        }
+        },
+        {
+          path:"/",
+          element:<LoginS/>
+        },
       ]
     },
-    
     {
       path:"/register",
-      element: <Register/>,
-    },
-    {
-      path:"/login",
-      element: <Login/>,
-    },
-
+      element: <SignUp/>,
+    }
   ]);
 
 

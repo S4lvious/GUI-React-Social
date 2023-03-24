@@ -33,7 +33,7 @@ const Login = () => {
     e.preventDefault();
     try{
     await login(inputs);
-    Navigate("/")
+    await Navigate("/")
     }catch(err){
       setErr(err.response.data)
     }
